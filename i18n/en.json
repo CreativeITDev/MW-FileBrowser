@@ -1,0 +1,25 @@
+{
+    "@metadata": {
+        "authors": [
+            "Pavel Astakhov"
+        ]
+    },
+	"fb-ve-inspector-title": "Browse files",
+	"fb-ve-dialog-title": "Browse files",
+	"fb-ve-dialog-action-choose-file": "Choose file",
+	"fb-list-empty": "List empty",
+	"fb-not-configured": "The $wgFileBrowserDirectory variable is not configured in LocalSettings.php",
+	"fb-wrong-configured": "The $wgFileBrowserDirectory variable is not configured correctly: '$1'",
+	"fb-wrong-directory": "Cannot open directory '$1'",
+	"fb-wrong-file-path": "Cannot open file '$1'",
+	"fb-wrong-file-type": "Wrong type '$1' of file $2",
+	"fb-path-not-found": "Path '$1' was not found on the server",
+	"fb-file-not-found": "File '$1' was not found on the server",
+	"fb-wrong-path": "Path '$1' is wrong",
+	"fb-path-is-not-dir": "Path '$1' is not directory",
+	"fb-path-is-not-file":  "Path '$1' is not file",
+	"fb-file-not-specified": "File not specified",
+	"fb-api-error-unknown-task": "Unknown task",
+	"fb-api-error-short-term": "Search phrase must be at least $1 {{PLURAL:$1|character|characters}}",
+	"filebrowser": "FileBrowser"
+}

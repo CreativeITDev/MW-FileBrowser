@@ -1,0 +1,116 @@
+{
+	"name": "FileBrowser",
+	"version": "1.5",
+	"author": "[https://www.mediawiki.org/wiki/User:Pastakhov Pavel Astakhov]",
+	"description": "",
+	"type": "other",
+	"GroupPermissions": {
+		"user": {
+			"filebrowser-browse": true,
+			"filebrowser-download": true
+		}
+	},
+	"AvailableRights": [
+		"filebrowser-browse",
+		"filebrowser-download"
+	],
+	"Hooks": {
+		"ParserFirstCallInit": "FileBrowserHooks::onParserFirstCallInit"
+	},
+	"SpecialPages": {
+		"FileBrowser": "SpecialFileBrowser"
+	},
+	"APIModules": {
+		"filebrowser": "ApiFileBrowser"
+	},
+	"MessagesDirs": {
+		"FileBrowser": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"FileBrowserMagic": "FileBrowser.i18.php",
+		"FileBrowserAlias": "FileBrowser.alias.php"
+	},
+	"AutoloadClasses": {
+		"FileBrowser": "includes/FileBrowser.php",
+		"ApiFileBrowser": "includes/api/ApiFileBrowser.php",
+		"SpecialFileBrowser": "includes/specials/SpecialFileBrowser.php",
+		"FileBrowserHooks": "FileBrowserHooks.php",
+		"ResourceLoaderFileBrowserModule": "ResourceLoaderFileBrowserModule.php"
+	},
+	"VisualEditorPluginModules": [
+		"ext.fb.visualEditor"
+	],
+	"ResourceModules": {
+		"ext.fb.visualEditor": {
+			"scripts": [
+				"ve/ext.fb.ve.js",
+				"ve/ext.fb.ve.FBDialog.js",
+				"ve/ve.dm.MWFBModel.js"
+			],
+			"styles": "ve/ext.fb.ve.less",
+			"dependencies": [
+				"ext.visualEditor.mwcore",
+				"ext.visualEditor.mwtransclusion",
+				"ext.fb.visualEditor.nodes",
+				"ext.fb.visualEditor.data"
+			],
+			"messages": [
+				"fb-ve-inspector-title",
+				"fb-ve-dialog-title",
+				"fb-ve-dialog-action-choose-file"
+			],
+			"targets": [
+				"desktop",
+				"mobile"
+			]
+		},
+		"ext.fb.visualEditor.data": {
+			"class" : "ResourceLoaderFileBrowserModule"
+		},
+		"ext.fb.visualEditor.nodes": {
+			"scripts": "ve/ve.dm.MWFBNode.js",
+			"dependencies": [
+				"ext.visualEditor.mwcore",
+				"ext.visualEditor.mwtransclusion"
+			],
+			"targets": [
+				"desktop",
+				"mobile"
+			]
+		},
+		"ext.fb.widgets.ItemsLayout": {
+			"dependencies": [
+				"ext.fb.widgets"
+			],
+			"scripts": [
+				"widgets/ext.fb.widgets.ItemsLayout.js"
+			],
+			"styles": [
+				"widgets/ext.fb.widgets.ItemsLayout.less"
+			],
+			"messages": [
+				"fb-list-empty"
+			]
+		},
+		"ext.fb.widgets": {
+			"dependencies": [
+				"oojs-ui"
+			],
+			"scripts": "widgets/ext.fb.widgets.js",
+			"styles": "ext.fb.common.less"
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "FileBrowser/resources"
+	},
+	"config": {
+		"FileBrowserDirectory": false,
+		"FileBrowserSearchDelay": 1000,
+		"FileBrowserSearchMinChars": 3,
+		"FileBrowserSearchLimit": 5
+	},
+	"manifest_version": 1
+}
