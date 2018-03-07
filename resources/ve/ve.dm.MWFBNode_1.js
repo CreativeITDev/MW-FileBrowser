@@ -43,6 +43,10 @@ OO.mixinClass( ve.dm.MWFBNode, ve.dm.FocusableNode );
 /* Static members */
 
 ve.dm.MWFBNode.static.name = 'mwFileBrowser';
+ve.dm.MWFBNode.static.blockType = 'mwFileBrowser';
+ve.dm.MWFBNode.static.inlineType = 'mwFileBrowser';
+ve.dm.MWFBNode.static.cellType = 'mwFileBrowser';
+ve.dm.MWFBNode.static.isContent = true;
 
 ve.dm.MWFBNode.static.matchTagNames = null;
 
@@ -52,21 +56,17 @@ ve.dm.MWFBNode.static.matchRdfaTypes = [ 'mw:Transclusion' ];
 // Allow all other types (null) so they match to this node.
 ve.dm.MWFBNode.static.allowedRdfaTypes = null;
 
-ve.dm.MWFBNode.static.isContent = true;
-
-// HACK: This prevents any rules with higher specificity from matching,
-// e.g. LanguageAnnotation which uses a match function
 ve.dm.MWFBNode.static.matchFunction = function ( domElement ) {
-		var mwDataJSON = domElement.getAttribute( 'data-mw' ),
-			mwData = mwDataJSON && JSON.parse( mwDataJSON ),
-			template = mwData && mwData.parts && mwData.parts[0] && mwData.parts[0].template,
-			funct = template && template.target && template.target.function;
+	var mwDataJSON = domElement.getAttribute( 'data-mw' ),
+		mwData = mwDataJSON && JSON.parse( mwDataJSON ),
+		template = mwData && mwData.parts && mwData.parts[0] && mwData.parts[0].template,
+		funct = template && template.target && template.target.function;
 
-		return funct === 'fb';
+	return funct === 'fb';
 };
 
-//ve.dm.MWFBNode.static.enableAboutGrouping = true;
-//
+ve.dm.MWFBNode.static.enableAboutGrouping = true;
+
 ve.dm.MWFBNode.static.getHashObject = function ( dataElement ) {
 	return {
 		type: dataElement.type,
@@ -84,33 +84,6 @@ ve.dm.MWFBNode.static.isDiffComparable = function ( element, other ) {
 	return ve.dm.MWFBNode.super.static.isDiffComparable.call( this, element, other ) &&
 		getTemplateNames( element.attributes.mw.parts ) === getTemplateNames( other.attributes.mw.parts );
 };
-
-/**
- * Node type to use when the transclusion is inline
- *
- * @static
- * @property {string}
- * @inheritable
- */
-ve.dm.MWFBNode.static.inlineType = 'mwFileBrowser';
-
-/**
- * Node type to use when the transclusion is a block
- *
- * @static
- * @property {string}
- * @inheritable
- */
-ve.dm.MWFBNode.static.blockType = 'mwFileBrowser';
-
-///**
-// * Node type to use when the transclusion is cellable
-// *
-// * @static
-// * @property {string}
-// * @inheritable
-// */
-//ve.dm.MWFBNode.static.cellType = 'mwFileBrowser';
 
 ve.dm.MWFBNode.static.toDataElement = function ( domElements, converter ) {
 	var dataElement,
