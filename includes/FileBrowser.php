@@ -71,10 +71,11 @@ class FileBrowser {
 			return Html::rawElement( 'span', [ 'class'=>'errorbox', 'title'=>'FileBrowser error message' ], $status->getWikiText() );
 		}
 
-		$title = Title::makeTitleSafe( NS_SPECIAL, 'FileBrowser' . ($param1[0] === '/' ? $param1 : '/' . $param1) );
+
+		$title = Title::makeTitleSafe( NS_SPECIAL, 'FileBrowser' );
 		$attribs = [
 			'title' => $params['title'],
-			'href' => $title->getInternalURL(),
+			'href' => $title->getInternalURL( [ 'file'=> ($param1[0] === '/' ? $param1 : '/' . $param1) ] ),
 		];
 		$output = Html::element( 'a', $attribs, $params['name'] );
 		return [ $output, 'noparse' => true, 'isHTML' => true, 'nowiki' => true ];

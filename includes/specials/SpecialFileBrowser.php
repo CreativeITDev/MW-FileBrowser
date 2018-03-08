@@ -15,12 +15,16 @@ class SpecialFileBrowser extends \SpecialPage {
 		}
 
 		$output = $this->getOutput();
-		$path = explode( '/', $par );
+		$request = $this->getRequest();
+		$path = explode( '/', $request->getVal( 'file' ) );
 		$fileName = array_pop( $path );
 		if ( !$fileName ) {
 			$this->setHeaders();
 			$output->addWikiMsg( 'fb-file-not-specified' );
 			return;
+		}
+		if ( !$path[0] ) {
+			array_shift( $path );
 		}
 		
 		$status = FileBrowser::getFileIterator( $path, $fileName );
@@ -35,7 +39,6 @@ class SpecialFileBrowser extends \SpecialPage {
 		$file = $iterator->openFile();
 
 		wfResetOutputBuffers();
-		$request = $this->getRequest();
 		$request->response()->header( "Content-Type: application/force-download" );
 		$request->response()->header( "Content-Disposition: attachment; filename=\"$fileName\"" );
 		while ( !$file->eof() ) {
