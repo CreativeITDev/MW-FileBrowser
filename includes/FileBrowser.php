@@ -62,7 +62,7 @@ class FileBrowser {
 	 * @param \Parser $parser
 	 * @param string $param1
 	 */
-	public static function runParserFunction( $parser, $param1 ) {
+	public static function runParserFunction( &$parser, $param1, $param2, $param3, $param4, $param5, $params6 )
 		$params = self::getParserParams( func_get_args() );
 
 		$status = self::getFileIterator( $params['path'], $params['file'] );
@@ -71,13 +71,32 @@ class FileBrowser {
 			return Html::rawElement( 'span', [ 'class'=>'errorbox', 'title'=>'FileBrowser error message' ], $status->getWikiText() );
 		}
 
+		$width  = (array_key_exists('width', $params) ? intval($params['width']).'px' : '100%');
+		$height = (array_key_exists('height', $params) ? intval($params['height']).'px' : '500px');
+		$page = (array_key_exists('page', $params) ? intval($params['page']) : 1);
+
 
 		$title = Title::makeTitleSafe( NS_SPECIAL, 'FileBrowser' );
 		$attribs = [
 			'title' => $params['title'],
 			'href' => $title->getInternalURL( [ 'file'=> ($param1[0] === '/' ? $param1 : '/' . $param1) ] ),
 		];
-		$output = Html::element( 'a', $attribs, $params['name'] );
+		$attribs_iframe = [
+            'border' => '0', 
+            'src' => $title->getInternalURL( [ 'file'=> ($param1[0] === '/' ? $param1 : '/' . $param1), 'inline'=>'true' ] ).'#page='.$page,
+            'width' => $width,
+            'height' => $height
+        ]; 
+
+		if ($params['preview']) {
+                $output = Html::rawElement( 'div', [ 'class' => 'mv-file-preview' ],
+                        Html::element( 'a', $attribs, $params['name'] ).Html::rawElement( 'br').Html::element( 'iframe', $attribs_iframe)
+                );
+        }
+        else {
+                $output = Html::element( 'a', $attribs, $params['name'] );
+        }
+
 		return [ $output, 'noparse' => true, 'isHTML' => true, 'nowiki' => true ];
 	}
 
@@ -108,6 +127,18 @@ class FileBrowser {
 						$return['title'] = $return['name'] = trim( $v[1] ) ?: $return['name']; // Can't be empty string
 					}
 					break;
+                case 'preview':
+                    $return['preview'] = isset( $v[1] ) ? trim( $v[1] ) : '';
+                    break;
+                case 'width':
+                    $return['width'] = isset( $v[1] ) ? trim( $v[1] ) : '';
+                    break;
+                case 'height':
+                    $return['height'] = isset( $v[1] ) ? trim( $v[1] ) : '';
+                    break;
+                case 'page':
+                    $return['page'] = isset( $v[1] ) ? trim( $v[1] ) : '';
+                    break;
 //				case 'title':
 //					$return['title'] = isset( $v[1] ) ? trim( $v[1] ) : '';
 //					break;

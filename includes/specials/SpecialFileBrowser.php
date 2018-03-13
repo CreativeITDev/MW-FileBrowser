@@ -39,8 +39,14 @@ class SpecialFileBrowser extends \SpecialPage {
 		$file = $iterator->openFile();
 
 		wfResetOutputBuffers();
-		$request->response()->header( "Content-Type: application/force-download" );
-		$request->response()->header( "Content-Disposition: attachment; filename=\"$fileName\"" );
+
+		if (!$request->getVal( 'inline' )) {
+			$request->response()->header( "Content-Type: application/force-download" );
+			$request->response()->header( "Content-Disposition: attachment; filename=\"$fileName\"" );
+		} else {
+			$request->response()->header( "Content-Type: ". mime_content_type($file->getRealPath()) );
+			$request->response()->header( "Content-Disposition: inline; filename=\"$fileName\"" );
+		}
 		while ( !$file->eof() ) {
 			echo $file->fread( 1024*8 );
 			//ob_flush();
