@@ -62,7 +62,7 @@ class FileBrowser {
 	 * @param \Parser $parser
 	 * @param string $param1
 	 */
-	public static function runParserFunction( &$parser, $param1, $param2, $param3, $param4, $param5, $params6 ) {
+	public static function runParserFunction( &$parser, $param1, $param2=null, $param3=null, $param4=null, $param5=null, $params6=null ) {
 		$params = self::getParserParams( func_get_args() );
 
 		$status = self::getFileIterator( $params['path'], $params['file'] );
